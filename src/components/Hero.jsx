@@ -1,71 +1,105 @@
+import { useEffect, useState } from "react";
 import "../styles/hero.css";
 
 export default function Hero() {
-  return (
-    <section className="hero">
 
-      <div className="fire-bg"></div>
+  const roles = [
+    "Full Stack Engineer",
+    "Open Source Contributor",
+    "Final Year Student"
+  ];
+
+  const [displayText, setDisplayText] = useState(roles[0]);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    const next =
+      roles[(index + 1) % roles.length];
+
+    let iteration = 0;
+
+    const interval = setInterval(() => {
+
+      setDisplayText(
+
+        next
+          .split("")
+          .map((_, i) => {
+
+            if (i < iteration)
+              return next[i];
+
+            return chars[
+              Math.floor(
+                Math.random() *
+                chars.length
+              )
+            ];
+
+          })
+          .join("")
+
+      );
+
+      if (iteration >= next.length) {
+
+        clearInterval(interval);
+
+        setTimeout(() => {
+
+          setIndex(
+            prev =>
+              (prev + 1) %
+              roles.length
+          );
+
+        }, 2000);
+      }
+
+      iteration += 1 / 3;
+
+    }, 30);
+
+    return () => clearInterval(interval);
+
+  }, [index]);
+
+  return (
+
+    <section className="hero">
 
       <div className="hero-left">
 
-        <p className="hero-small">
-          SOFTWARE ENGINEER
-        </p>
-
         <h1 className="hero-title">
-          SAI
-          <br />
-          VARDHAN
-          <br />
-          KAREKA
+          Hi, I'm Vardhan
         </h1>
 
+        <div className="hero-shuffle">
+          {displayText}
+        </div>
+
         <p className="hero-description">
-          Computer Science undergraduate focused on
-          building scalable web applications,
-          contributing to open source,
-          and developing modern AI-powered products.
+          I'm always ready to deliver, as long as the 
+          opportunity offers a steep learning curve and a solid return on investment for my time.
+        </p>
+
+        <p className="quick-link">
+          Don't Have Much Time?
         </p>
 
         <div className="hero-buttons">
-          <button>
-            View Projects
-          </button>
 
-          <button className="secondary">
+          <button className="resume-btn">
             Resume
           </button>
-        </div>
 
-      </div>
-
-      <div className="hero-right">
-
-        <div className="profile-card">
-
-          <h2>
-            SOFTWARE ENGINEER
-          </h2>
-
-          <div className="stat">
-            <span>Experience</span>
-            <span>1+ Years</span>
-          </div>
-
-          <div className="stat">
-            <span>Projects</span>
-            <span>5+</span>
-          </div>
-
-          <div className="stat">
-            <span>Open Source</span>
-            <span>Active</span>
-          </div>
-
-          <div className="stat">
-            <span>Location</span>
-            <span>India</span>
-          </div>
+          <button className="hire-btn">
+            Hire Me
+          </button>
 
         </div>
 
